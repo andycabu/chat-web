@@ -2,10 +2,10 @@ import { RiLinkM, RiMore2Fill, RiSearchLine } from "react-icons/ri";
 import Messages from "./Messages";
 import SendMessage from "./SendMessage";
 import { useApp } from "../context/AppContext";
+import img from "../assets/profilepicture1.jpg";
 
 const Chat = () => {
   const { user } = useApp();
-  console.log("user", user);
   const name = user?.contacts[0].profile.name;
   if (!user) {
     return (
@@ -18,10 +18,7 @@ const Chat = () => {
     <div className="w-full">
       <header className="h-[8vh] bg-[#1B2831] p-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <img
-            src="https://img.freepik.com/psd-gratis/estudiante-alegre-idea_1154-280.jpg"
-            className="w-10 h-10 object-cover rounded-full"
-          />
+          <img src={img} className="w-10 h-10 object-cover rounded-full" />
           <div>
             <h2>{name}</h2>
             <span className="text-gray-500 text-sm">En Linea</span>

@@ -1,4 +1,5 @@
 import { useApp } from "../context/AppContext";
+import img from "../assets/profilepicture1.jpg";
 
 const Contact = () => {
   const { contacts, setUser } = useApp();
@@ -53,10 +54,7 @@ const Contact = () => {
             onClick={() => setUser(user)}
           >
             <div className="hover:bg-[#1B2831] flex items-center gap-4 p-4">
-              <img
-                src="https://img.freepik.com/foto-gratis/retrato-joven-confiado-gafas_171337-4841.jpg"
-                className="w-10 h-10 object-cover rounded-full"
-              />
+              <img src={img} className="w-10 h-10 object-cover rounded-full" />
               <div className="flex-1 flex justify-between">
                 <div>
                   <h2>{user.contacts[0].profile.name}</h2>

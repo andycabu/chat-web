@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { RiEmotionHappyLine, RiMicFill } from "react-icons/ri";
+import { RiEmotionHappyLine } from "react-icons/ri";
+import { IoSend } from "react-icons/io5";
 import { addMessageRequest } from "../api/messages";
 
 const SendMessage = () => {
@@ -61,7 +62,7 @@ const SendMessage = () => {
         />
       </form>
       <div className="w-[20%] xl:w-1/12 flex justify-center text-2xl">
-        <RiMicFill
+        <IoSend
           className="hover:cursor-pointer hover:text-red-100"
           onClick={(e) => handleSubmit(e)}
         />

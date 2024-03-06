@@ -6,6 +6,7 @@ import {
 } from "react-icons/ri";
 import Chat from "./components/Chat";
 import Contacts from "./components/Contacts";
+import img from "./assets/profilepicture1.jpg";
 
 function App() {
   return (
@@ -16,10 +17,7 @@ function App() {
         <div className="p-4 h-[15vh]">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <img
-                src="https://img.freepik.com/psd-gratis/estudiante-alegre-idea_1154-280.jpg"
-                className="w-10 h-10 object-cover rounded-full"
-              />
+              <img src={img} className="w-10 h-10 object-cover rounded-full" />
             </div>
             <div className="flex items-center gap-8 text-2xl text-gray-500">
               <RiLoader3Line className="hover:cursor-pointer" />

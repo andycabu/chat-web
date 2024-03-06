@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { getMessagesByIdRequest } from "../api/messages";
 import { getContactsRequest } from "../api/contacts";
+import io from "socket.io-client";
 
 export const AppContext = createContext();
 
@@ -12,10 +12,28 @@ export const useApp = () => {
   }
   return context;
 };
-
+const socket = io("http://localhost:3000");
 export const AppProvider = ({ children }) => {
   const [contacts, setContacts] = useState([]);
   const [user, setUser] = useState();
+
+const 
+  useEffect(() => {
+    // Establecer conexión WebSocket
+    const socket = io();
+
+    // Escuchar eventos de mensajes del servidor
+    socket.on("mensaje", (data) => {
+      // Actualizar el estado con el nuevo mensaje
+      setMessages([...messages, data]);
+    });
+
+    // Limpiar la conexión al desmontar el componente
+    return () => {
+      socket.disconnect();
+    };
+  }, [messages]);
+  console.log(isConected);
 
   const getContacts = async () => {
     try {
@@ -31,6 +49,22 @@ export const AppProvider = ({ children }) => {
       getContacts();
     }
   }, []);
+
+  useEffect(() => {
+    // Establecer conexión WebSocket
+    const socket = io();
+
+    // Escuchar eventos de mensajes del servidor
+    socket.on("mensaje", (data) => {
+      // Actualizar el estado con el nuevo mensaje
+      setContacts([...contacts, data]);
+    });
+
+    // Limpiar la conexión al desmontar el componente
+    return () => {
+      socket.disconnect();
+    };
+  }, [contacts]);
   return (
     <AppContext.Provider value={{ contacts, user, setUser }}>
       {children}
