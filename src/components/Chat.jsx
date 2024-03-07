@@ -6,7 +6,7 @@ import img from "../assets/profilepicture1.jpg";
 
 const Chat = () => {
   const { user } = useApp();
-  const name = user?.contacts[0].profile.name;
+  const name = user?.contact[0].profile.name;
   if (!user) {
     return (
       <div className="flex justify-center items-center w-full">

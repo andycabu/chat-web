@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { RiEmotionHappyLine } from "react-icons/ri";
 import { IoSend } from "react-icons/io5";
-import { addMessageRequest } from "../api/messages";
+import { postMessageRequest } from "../api/contacts";
 
 const SendMessage = () => {
   const [newMessage, setNewMessage] = useState("");
@@ -32,7 +32,7 @@ const SendMessage = () => {
           body: newMessage["message"],
         },
       };
-      const res = await addMessageRequest(data);
+      const res = await postMessageRequest(data);
 
       if (res.status === 200) {
         clearInput();

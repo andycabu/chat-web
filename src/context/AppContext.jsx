@@ -1,6 +1,12 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  Component,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import PropTypes from "prop-types";
-import { getContactsRequest } from "../api/contacts";
+import { getContactsRequest, postMessageRequest } from "../api/contacts";
 import io from "socket.io-client";
 
 export const AppContext = createContext();
@@ -12,28 +18,33 @@ export const useApp = () => {
   }
   return context;
 };
-const socket = io("http://localhost:3000");
+// const socket = io("http://localhost:3000");
 export const AppProvider = ({ children }) => {
   const [contacts, setContacts] = useState([]);
   const [user, setUser] = useState();
 
-const 
-  useEffect(() => {
-    // Establecer conexión WebSocket
-    const socket = io();
+  const prueba = contacts.sort((a, b) => {
+    const timestampA = new Date(a.messages[0].timestamp * 1000);
+    const timestampB = new Date(b.messages[0].timestamp * 1000);
+    return timestampB - timestampA;
+  });
 
-    // Escuchar eventos de mensajes del servidor
-    socket.on("mensaje", (data) => {
-      // Actualizar el estado con el nuevo mensaje
-      setMessages([...messages, data]);
-    });
+  // useEffect(() => {
+  //   // Establecer conexión WebSocket
+  //   const socket = io();
 
-    // Limpiar la conexión al desmontar el componente
-    return () => {
-      socket.disconnect();
-    };
-  }, [messages]);
-  console.log(isConected);
+  //   // Escuchar eventos de mensajes del servidor
+  //   socket.on("mensaje", (data) => {
+  //     // Actualizar el estado con el nuevo mensaje
+  //     setMessages([...messages, data]);
+  //   });
+
+  //   // Limpiar la conexión al desmontar el componente
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, [messages]);
+  // console.log(isConected);
 
   const getContacts = async () => {
     try {
@@ -50,21 +61,21 @@ const
     }
   }, []);
 
-  useEffect(() => {
-    // Establecer conexión WebSocket
-    const socket = io();
+  // useEffect(() => {
+  //   // Establecer conexión WebSocket
+  //   const socket = io();
 
-    // Escuchar eventos de mensajes del servidor
-    socket.on("mensaje", (data) => {
-      // Actualizar el estado con el nuevo mensaje
-      setContacts([...contacts, data]);
-    });
+  //   // Escuchar eventos de mensajes del servidor
+  //   socket.on("mensaje", (data) => {
+  //     // Actualizar el estado con el nuevo mensaje
+  //     setContacts([...contacts, data]);
+  //   });
 
-    // Limpiar la conexión al desmontar el componente
-    return () => {
-      socket.disconnect();
-    };
-  }, [contacts]);
+  //   // Limpiar la conexión al desmontar el componente
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, [contacts]);
   return (
     <AppContext.Provider value={{ contacts, user, setUser }}>
       {children}

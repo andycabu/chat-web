@@ -7,3 +7,10 @@ export const getContactsRequest = async () =>
       "Content-Type": "application/json",
     },
   });
+
+export const postMessageRequest = async (data) =>
+  await axios.post(`${URL}saveMessage`, data, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
