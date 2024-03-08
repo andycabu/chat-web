@@ -1,12 +1,6 @@
-import {
-  Component,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { getContactsRequest, postMessageRequest } from "../api/contacts";
+import { getContactsRequest } from "../api/contacts";
 import io from "socket.io-client";
 
 export const AppContext = createContext();
@@ -28,7 +22,6 @@ export const AppProvider = ({ children }) => {
     const timestampB = new Date(b.messages[0].timestamp * 1000);
     return timestampB - timestampA;
   });
-
   // useEffect(() => {
   //   // Establecer conexión WebSocket
   //   const socket = io();

@@ -11,7 +11,7 @@ const Contact = () => {
         const date = new Date(message.timestamp * 1000);
         const hour = date.getHours();
         const minute = date.getMinutes();
-        const name = user.contact[0].profile.name;
+        const name = user.profile.name;
         return (
           <div
             key={user._id}

@@ -33,6 +33,7 @@ const SendMessage = () => {
         },
       };
       const res = await postMessageRequest(data);
+      console.log(res);
 
       if (res.status === 200) {
         clearInput();
@@ -46,6 +47,7 @@ const SendMessage = () => {
   const clearInput = () => {
     setNewMessage({ message: "" });
   };
+
   return (
     <div className="h-[8vh] text-gray-500 flex items-center bg-[#1B2831]">
       <div className="w-[20%] xl:w-1/12 flex justify-center text-2xl">
