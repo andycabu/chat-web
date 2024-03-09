@@ -2,22 +2,20 @@ import { useState } from "react";
 import { RiEmotionHappyLine } from "react-icons/ri";
 import { IoSend } from "react-icons/io5";
 import { postMessageRequest } from "../api/contacts";
+import { useApp } from "../hooks/useApp";
 
 const SendMessage = () => {
+  const { user } = useApp();
   const [newMessage, setNewMessage] = useState("");
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     sendMessage(newMessage);
+    setNewMessage("");
   };
 
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setNewMessage((prevNewMessage) => ({
-      ...prevNewMessage,
-      [name]: value,
-    }));
+    setNewMessage(e.target.value);
   };
 
   const sendMessage = async (newMessage) => {
@@ -25,27 +23,17 @@ const SendMessage = () => {
       const data = {
         messaging_product: "whatsapp",
         recipient_type: "individual",
-        to: "34658742600",
+        to: user.profile.waId,
         type: "text",
         text: {
           preview_url: false,
-          body: newMessage["message"],
+          body: newMessage,
         },
       };
-      const res = await postMessageRequest(data);
-      console.log(res);
-
-      if (res.status === 200) {
-        clearInput();
-        console.log("Message sent successfully");
-      }
+      await postMessageRequest(data);
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const clearInput = () => {
-    setNewMessage({ message: "" });
   };
 
   return (
@@ -53,7 +41,7 @@ const SendMessage = () => {
       <div className="w-[20%] xl:w-1/12 flex justify-center text-2xl">
         <RiEmotionHappyLine className="hover:cursor-pointer" />
       </div>
-      <form className="w-[60%] xl:w-10/12">
+      <form className="w-[60%] xl:w-10/12" onSubmit={handleSubmit}>
         <input
           type="text"
           className="bg-[#0B131A] w-full py-2 px-6 rounded-full outline-none text-gray-300"
@@ -61,7 +49,11 @@ const SendMessage = () => {
           autoComplete="off"
           name="message"
           onChange={handleChange}
+          value={newMessage}
         />
+        <button type="submit" className="hidden">
+          Enviar
+        </button>{" "}
       </form>
       <div className="w-[20%] xl:w-1/12 flex justify-center text-2xl">
         <IoSend

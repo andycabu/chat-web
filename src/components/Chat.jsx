@@ -1,8 +1,8 @@
 import { RiLinkM, RiMore2Fill, RiSearchLine } from "react-icons/ri";
 import Messages from "./Messages";
 import SendMessage from "./SendMessage";
-import { useApp } from "../context/AppContext";
 import img from "../assets/profilepicture1.jpg";
+import { useApp } from "../hooks/useApp";
 
 const Chat = () => {
   const { user } = useApp();

@@ -14,3 +14,17 @@ export const postMessageRequest = async (data) =>
       "Content-Type": "application/json",
     },
   });
+
+export const getContactsRequestById = async (id) =>
+  await axios.get(`${URL}messages/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+export const getMessageUnread = async () =>
+  await axios.get(`${URL}messages/unread-count`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });

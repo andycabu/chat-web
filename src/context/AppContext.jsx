@@ -1,48 +1,76 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { getContactsRequest } from "../api/contacts";
+import {
+  getContactsRequest,
+  getContactsRequestById,
+  getMessageUnread,
+} from "../api/contacts";
 import io from "socket.io-client";
 
 export const AppContext = createContext();
 
-export const useApp = () => {
-  const context = useContext(AppContext);
-  if (!context) {
-    throw new Error("useApp debe estar dentro del proveedor TaskContext");
-  }
-  return context;
-};
-// const socket = io("http://localhost:3000");
 export const AppProvider = ({ children }) => {
   const [contacts, setContacts] = useState([]);
   const [user, setUser] = useState();
+  const [unread, setUnread] = useState(0);
 
-  const prueba = contacts.sort((a, b) => {
-    const timestampA = new Date(a.messages[0].timestamp * 1000);
-    const timestampB = new Date(b.messages[0].timestamp * 1000);
-    return timestampB - timestampA;
-  });
-  // useEffect(() => {
-  //   // Establecer conexión WebSocket
-  //   const socket = io();
+  useEffect(() => {
+    const socket = io("http://localhost:3000");
 
-  //   // Escuchar eventos de mensajes del servidor
-  //   socket.on("mensaje", (data) => {
-  //     // Actualizar el estado con el nuevo mensaje
-  //     setMessages([...messages, data]);
-  //   });
+    socket.on("newMessage", ({ contactId, message }) => {
+      if (contactId) {
+        updateLastMessage(contactId, message);
+      }
+      if (user) {
+        if (contactId === user.messages[0]?.contactId) {
+          setUser((user) => ({
+            ...user,
+            messages: [...user.messages, message],
+          }));
+        }
+      }
+    });
 
-  //   // Limpiar la conexión al desmontar el componente
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, [messages]);
-  // console.log(isConected);
+    return () => {
+      socket.disconnect();
+    };
+  }, [user]);
+  const updateLastMessage = (contactId, message) => {
+    setContacts((contacts) =>
+      contacts.map((contact) =>
+        contact._id === contactId
+          ? { ...contact, lastMessage: message }
+          : contact
+      )
+    );
+  };
+  const MessageUnread = async () => {
+    try {
+      const res = await getMessageUnread();
+      setUnread(res.data[0]);
+    } catch (error) {
+      console.error("Error al obtener mensajes:", error);
+    }
+  };
+
+  useEffect(() => {
+    MessageUnread();
+  }, []);
+  console.log(unread);
+  console.log(contacts);
 
   const getContacts = async () => {
     try {
       const res = await getContactsRequest();
       setContacts(res.data);
+    } catch (error) {
+      console.error("Error al obtener mensajes:", error);
+    }
+  };
+  const getMessage = async (id) => {
+    try {
+      const res = await getContactsRequestById(id);
+      setUser(res.data);
     } catch (error) {
       console.error("Error al obtener mensajes:", error);
     }
@@ -54,23 +82,8 @@ export const AppProvider = ({ children }) => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   // Establecer conexión WebSocket
-  //   const socket = io();
-
-  //   // Escuchar eventos de mensajes del servidor
-  //   socket.on("mensaje", (data) => {
-  //     // Actualizar el estado con el nuevo mensaje
-  //     setContacts([...contacts, data]);
-  //   });
-
-  //   // Limpiar la conexión al desmontar el componente
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, [contacts]);
   return (
-    <AppContext.Provider value={{ contacts, user, setUser }}>
+    <AppContext.Provider value={{ contacts, user, getMessage }}>
       {children}
     </AppContext.Provider>
   );
