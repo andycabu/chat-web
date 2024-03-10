@@ -18,29 +18,53 @@ export const AppProvider = ({ children }) => {
 
   useEffect(() => {
     const socket = io("http://localhost:3000");
+    console.log(user);
 
-    socket.on("newMessage", ({ contactId, message, contactIdRead }) => {
-      if (contactIdRead) {
-        removeMessageById(contactIdRead);
-      }
-      if (contactId) {
-        updateLastMessage(contactId, message);
-        updateUnreadMessages(message);
-      }
-      if (user) {
-        if (contactId === user.messages[0]?.contactId) {
-          setUser((user) => ({
-            ...user,
-            messages: [...user.messages, message],
-          }));
+    socket.on(
+      "newMessage",
+      ({ contactId, message, contactIdRead, newStatus, messageId }) => {
+        if (contactIdRead) {
+          removeMessageById(contactIdRead);
+        }
+        if (contactId) {
+          updateLastMessage(contactId, message);
+          updateUnreadMessages(message);
+        }
+        if (messageId && newStatus) {
+          updateUserMessagesStatus(messageId, newStatus);
+        }
+        if (user) {
+          if (contactId === user.messages[0]?.contactId) {
+            setUser((user) => ({
+              ...user,
+              messages: [...user.messages, message],
+            }));
+          }
         }
       }
-    });
+    );
+    window.addEventListener("beforeunload", changeUser);
 
     return () => {
+      window.removeEventListener("beforeunload", changeUser);
       socket.disconnect();
     };
-  }, [user]);
+  }, [user, activeUser]);
+  const updateUserMessagesStatus = (messageId, newStatus) => {
+    if (user && user.messages) {
+      const updatedMessages = user.messages.map((msg) => {
+        if (msg.messageId === messageId) {
+          return { ...msg, status: newStatus };
+        }
+        return msg;
+      });
+
+      setUser((currentUser) => ({
+        ...currentUser,
+        messages: updatedMessages,
+      }));
+    }
+  };
 
   function removeMessageById(id) {
     const newUnread = unread.filter((_id) => _id !== id);
