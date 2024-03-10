@@ -4,6 +4,7 @@ import {
   getContactsRequest,
   getContactsRequestById,
   getMessageUnread,
+  postMessagesRead,
 } from "../api/contacts";
 import io from "socket.io-client";
 
@@ -12,14 +13,19 @@ export const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [contacts, setContacts] = useState([]);
   const [user, setUser] = useState();
-  const [unread, setUnread] = useState(0);
+  const [unread, setUnread] = useState([]);
+  const [activeUser, setActiveUser] = useState(null);
 
   useEffect(() => {
     const socket = io("http://localhost:3000");
 
-    socket.on("newMessage", ({ contactId, message }) => {
+    socket.on("newMessage", ({ contactId, message, contactIdRead }) => {
+      if (contactIdRead) {
+        removeMessageById(contactIdRead);
+      }
       if (contactId) {
         updateLastMessage(contactId, message);
+        updateUnreadMessages(message);
       }
       if (user) {
         if (contactId === user.messages[0]?.contactId) {
@@ -35,6 +41,46 @@ export const AppProvider = ({ children }) => {
       socket.disconnect();
     };
   }, [user]);
+
+  function removeMessageById(id) {
+    const newUnread = unread.filter((_id) => _id !== id);
+    setUnread(newUnread);
+  }
+
+  const changeUser = async (newUserId) => {
+    console.log(newUserId);
+    if (activeUser) {
+      await postMessagesRead({ contactId: activeUser });
+    }
+
+    setActiveUser(newUserId);
+    getMessage(newUserId);
+  };
+
+  const updateUnreadMessages = (receivedMessage) => {
+    if (
+      receivedMessage.read === false &&
+      activeUser !== receivedMessage.contactId
+    ) {
+      setUnread((currentUnread) => {
+        const index = currentUnread.findIndex(
+          (item) => item._id === receivedMessage.contactId
+        );
+
+        if (index > -1) {
+          const updatedUnread = [...currentUnread];
+          updatedUnread[index].count += 1;
+          return updatedUnread;
+        } else {
+          return [
+            ...currentUnread,
+            { _id: receivedMessage.contactId, count: 1 },
+          ];
+        }
+      });
+    }
+  };
+
   const updateLastMessage = (contactId, message) => {
     setContacts((contacts) =>
       contacts.map((contact) =>
@@ -47,7 +93,7 @@ export const AppProvider = ({ children }) => {
   const MessageUnread = async () => {
     try {
       const res = await getMessageUnread();
-      setUnread(res.data[0]);
+      setUnread(res.data);
     } catch (error) {
       console.error("Error al obtener mensajes:", error);
     }
@@ -56,8 +102,6 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     MessageUnread();
   }, []);
-  console.log(unread);
-  console.log(contacts);
 
   const getContacts = async () => {
     try {
@@ -83,7 +127,16 @@ export const AppProvider = ({ children }) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ contacts, user, getMessage }}>
+    <AppContext.Provider
+      value={{
+        contacts,
+        user,
+        unread,
+        setActiveUser,
+        changeUser,
+        removeMessageById,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

@@ -28,3 +28,9 @@ export const getMessageUnread = async () =>
       "Content-Type": "application/json",
     },
   });
+export const postMessagesRead = async (id) =>
+  await axios.post(`${URL}messages/read`, id, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
