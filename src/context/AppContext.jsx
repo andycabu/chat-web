@@ -15,11 +15,8 @@ export const AppProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [unread, setUnread] = useState([]);
   const [activeUser, setActiveUser] = useState(null);
-
+  const socket = io("http://localhost:3000");
   useEffect(() => {
-    const socket = io("http://localhost:3000");
-    console.log(user);
-
     socket.on(
       "newMessage",
       ({ contactId, message, contactIdRead, newStatus, messageId }) => {
@@ -30,7 +27,7 @@ export const AppProvider = ({ children }) => {
           updateLastMessage(contactId, message);
           updateUnreadMessages(message);
         }
-        if (messageId && newStatus) {
+        if (newStatus) {
           updateUserMessagesStatus(messageId, newStatus);
         }
         if (user) {
@@ -43,13 +40,19 @@ export const AppProvider = ({ children }) => {
         }
       }
     );
-    window.addEventListener("beforeunload", changeUser);
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      postMessagesRead({ contactId: activeUser });
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      window.removeEventListener("beforeunload", changeUser);
       socket.disconnect();
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [user, activeUser]);
+  }, [user, activeUser, unread]);
+
   const updateUserMessagesStatus = (messageId, newStatus) => {
     if (user && user.messages) {
       const updatedMessages = user.messages.map((msg) => {
@@ -65,14 +68,12 @@ export const AppProvider = ({ children }) => {
       }));
     }
   };
-
   function removeMessageById(id) {
-    const newUnread = unread.filter((_id) => _id !== id);
+    const newUnread = unread.filter((messages) => messages._id !== id);
     setUnread(newUnread);
   }
 
   const changeUser = async (newUserId) => {
-    console.log(newUserId);
     if (activeUser) {
       await postMessagesRead({ contactId: activeUser });
     }
