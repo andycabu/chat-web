@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 
 const Ticks = ({ status }) => {
-  const tickColor = status === "read" && "text-green-600";
+  const tickColor =
+    status === "read" ? "text-[var(--color-primary)]" : "text-white";
 
   return (
     <div className={`flex items-center ${tickColor}`}>

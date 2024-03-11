@@ -9,7 +9,6 @@ const Messages = () => {
   const formatDate = (timestamp) => {
     const date = new Date(timestamp * 1000);
     const options = {
-      weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -33,7 +32,7 @@ const Messages = () => {
 
   let currentDay = null;
   return (
-    <main className="h-[84vh] overflow-y-auto p-4">
+    <main className="h-[84vh] overflow-y-auto p-4 bg-[var(--background-color)]">
       {user?.messages.map((message, index) => {
         const date = new Date(message.timestamp * 1000);
         const hour = date.getHours().toString().padStart(2, "0");
@@ -48,26 +47,30 @@ const Messages = () => {
         const messageAlignment =
           message.direction === "sent" ? "justify-end" : "justify-start";
         const messageBgColor =
-          message.direction === "sent" ? "bg-[#1B2831]" : "bg-[#054640]";
+          message.direction === "sent"
+            ? "bg-[var(--color-secundary)] text-white"
+            : "bg-[var(--color-primary)] text-white";
 
         return (
           <div key={message._id}>
             {showDateLabel && (
               <div key={index} className="text-center my-2">
-                {showFullDate
-                  ? day
-                  : date.toLocaleDateString("es-ES", { weekday: "long" })}
+                <span className="bg-[var(--card-background-color)] rounded-md p-1">
+                  {showFullDate
+                    ? day
+                    : date.toLocaleDateString("es-ES", { weekday: "long" })}
+                </span>
               </div>
             )}
-            <div className={`mb-3 flex ${messageAlignment}`}>
+            <div className={`mb-2 flex ${messageAlignment}`}>
               <div
                 className={`flex ${messageBgColor} max-w-[80%] xl:max-w-2xl py-1 px-2 rounded-xl`}
               >
-                <p className="max-w-[400px] break-words pb-2">
+                <p className="max-w-[400px] overflow-hidden break-words pb-2">
                   {message.text.body}
                 </p>
                 <div className="pt-5 pl-4 flex items-center">
-                  <p className="ml-auto text-[0.70rem] text-grey-dark ">
+                  <p className="ml-auto text-[0.70rem]">
                     {`${hour}:${minute}`}
                   </p>
                   {message.direction === "sent" && (
