@@ -63,8 +63,10 @@ const Messages = () => {
               <div
                 className={`flex ${messageBgColor} max-w-[80%] xl:max-w-2xl py-1 px-2 rounded-xl`}
               >
-                <p className="max-w-[400px] break-words">{message.text.body}</p>
-                <div className="pt-5 pl-4 flex">
+                <p className="max-w-[400px] break-words pb-2">
+                  {message.text.body}
+                </p>
+                <div className="pt-5 pl-4 flex items-center">
                   <p className="ml-auto text-[0.70rem] text-grey-dark ">
                     {`${hour}:${minute}`}
                   </p>

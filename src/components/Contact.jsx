@@ -5,12 +5,18 @@ import UnreadMessagesBadge from "./UnreadMessagesBadge ";
 import { postMessagesRead } from "../api/contacts";
 
 const Contact = () => {
-  const { contacts, unread, setActiveUser, changeUser, removeMessageById } =
-    useApp();
+  const {
+    contacts,
+    unread,
+    setActiveUser,
+    changeUser,
+    removeMessageById,
+    activeUser,
+  } = useApp();
   const sortedContacts = contacts.sort(
     (a, b) => b.lastMessage.timestamp - a.lastMessage.timestamp
   );
-
+  console.log(activeUser);
   // Función para encontrar si un usuario tiene mensajes no leídos
   const getUnreadMessageCount = (userId) => {
     const unreadMsg = unread.find((unreadMsg) => unreadMsg._id === userId);
@@ -29,10 +35,13 @@ const Contact = () => {
         const hour = date.getHours();
         const minute = date.getMinutes();
         const name = user.profile.name;
+        const isActive = activeUser === user._id;
+        console.log(isActive);
+
         return (
           <div
             key={user._id}
-            className="pt-1 bg-[#222C32] border-b border-[#222C32] hover:cursor-pointer"
+            className="pt-1 px-3  hover:cursor-pointer"
             onClick={() => {
               postMessagesRead({ contactId: user._id }),
                 handleUserChange(message.contactId);
@@ -40,28 +49,24 @@ const Contact = () => {
               removeMessageById(user._id);
             }}
           >
-            <div className="hover:bg-[#1B2831] flex items-center gap-4 p-4">
+            <div
+              className={`${
+                isActive ? "bg-[var(--color-primary)] text-white" : ""
+              } hover:bg-[var(--color-primary-hover)] hover:text-white  rounded-md  flex items-center gap-4 p-4`}
+            >
               <img
                 src={img}
                 alt="Profile"
                 className="w-10 h-10 object-cover rounded-full"
               />
               <div className="flex-1 flex justify-between">
-                <div>
-                  <h2>{name}</h2>
-                  <p
-                    className="text-gray-500"
-                    style={{
-                      maxWidth: "200px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
+                <div className="">
+                  <h2 className="font-bold">{name}</h2>
+                  <p className="max-w-[200px] overflow-hidden text-ellipsis">
                     {message.text.body}
                   </p>
                 </div>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm flex flex-col items-center gap-1">
                   <span>
                     {hour.toString().padStart(2, "0")}:
                     {minute.toString().padStart(2, "0")}

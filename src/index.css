@@ -15,6 +15,7 @@
   --card-box-shadow-2-y: 8px;
   --card-box-shadow-2-blur: 15px;
   --color-primary: #00b2f3;
+  --color-primary-hover: #00b2f3d9;
   --color-secundary: #ff1089;
   --bg-3: #0194c9;
   --bg-4: #353535;
@@ -34,6 +35,20 @@
   --card-box-shadow-2: rgba(24, 24, 27, 0.04);
   --card-box-shadow-2-y: 2px;
   --card-box-shadow-2-blur: 7px;
+}
+::-webkit-scrollbar {
+  width: 0.3rem;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--text-color);
+  border-radius: 0.3125rem;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secundary);
+}
+::-webkit-scrollbar-track {
+  display: none;
 }
 
 .day-night {

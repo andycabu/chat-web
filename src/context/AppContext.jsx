@@ -157,6 +157,7 @@ export const AppProvider = ({ children }) => {
         contacts,
         user,
         unread,
+        activeUser,
         setActiveUser,
         changeUser,
         removeMessageById,
