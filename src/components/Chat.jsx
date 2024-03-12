@@ -16,12 +16,12 @@ const Chat = () => {
     );
   }
   return (
-    <div className="w-full h-screen flex flex-col">
+    <div className="w-[70%] h-screen flex flex-col">
       <header className=" bg-[var(--card-background-color)] p-4 flex items-center justify-between border-b-2 border-[var(--background-color)]">
         <div className="flex items-center gap-4">
           <div
             onClick={() => setUser()}
-            className=" flex text-2xl justify-center hover:cursor-pointer"
+            className=" hidden text-2xl justify-center hover:cursor-pointer medium:flex"
           >
             <div className="p-3 hover:bg-[var(--background-color)] rounded-md">
               <IoArrowBack />

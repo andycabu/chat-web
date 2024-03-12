@@ -32,7 +32,7 @@ const Messages = () => {
 
   let currentDay = null;
   return (
-    <main className="h-[84vh] overflow-y-auto p-4 bg-[var(--background-color)]">
+    <main className="overflow-y-auto h-full p-4 bg-[var(--background-color)]">
       {user?.messages.map((message, index) => {
         const date = new Date(message.timestamp * 1000);
         const hour = date.getHours().toString().padStart(2, "0");
@@ -64,7 +64,7 @@ const Messages = () => {
             )}
             <div className={`mb-2 flex ${messageAlignment}`}>
               <div
-                className={`flex flex-col ${messageBgColor} max-w-[80%] min-w-[110px] xl:max-w-2xl rounded-xl`}
+                className={`flex flex-col ${messageBgColor} max-w-[600px] min-w-[110px] xl:max-w-2xl rounded-xl`}
               >
                 <p className="break-words px-2 pt-1">{message.text.body}</p>
                 <div className="flex justify-end items-center px-2">

@@ -20,7 +20,18 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     socket.on(
       "newMessage",
-      ({ contactId, message, contactIdRead, newStatus, messageId }) => {
+      ({
+        contactId,
+        message,
+        contactIdRead,
+        newStatus,
+        messageId,
+        newContact,
+      }) => {
+        console.log(newContact);
+        if (newContact) {
+          getContacts();
+        }
         if (contactIdRead) {
           removeMessageById(contactIdRead);
         }

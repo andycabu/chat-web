@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="min-h-screen flex text-[var(--text-color)]">
       <div
-        className={`min-w-[360px] bg-[var(--card-background-color)] flex flex-col border-r-2 border-[var(--background-color)] w-1/2 small:w-full ${
+        className={`min-w-[360px] bg-[var(--card-background-color)] flex flex-col border-r-2 border-[var(--background-color)] w-[30%] small:w-full ${
           user ? "medium:hidden" : ""
         }`}
       >
