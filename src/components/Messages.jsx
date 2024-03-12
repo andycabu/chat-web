@@ -64,15 +64,11 @@ const Messages = () => {
             )}
             <div className={`mb-2 flex ${messageAlignment}`}>
               <div
-                className={`flex ${messageBgColor} max-w-[80%] xl:max-w-2xl py-1 px-2 rounded-xl`}
+                className={`flex flex-col ${messageBgColor} max-w-[80%] min-w-[110px] xl:max-w-2xl rounded-xl`}
               >
-                <p className="max-w-[400px] overflow-hidden break-words pb-2">
-                  {message.text.body}
-                </p>
-                <div className="pt-5 pl-4 flex items-center">
-                  <p className="ml-auto text-[0.70rem]">
-                    {`${hour}:${minute}`}
-                  </p>
+                <p className="break-words px-2 pt-1">{message.text.body}</p>
+                <div className="flex justify-end items-center px-2">
+                  <span className="text-[0.70rem]">{`${hour}:${minute}`}</span>
                   {message.direction === "sent" && (
                     <Ticks status={message.status} />
                   )}

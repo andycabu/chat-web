@@ -30,6 +30,10 @@ export default {
       backgroundPosition: {
         "custom-pos": "-100% 0",
       },
+      screens: {
+        small: { raw: "(max-width: 560px)" },
+        medium: { raw: "(max-width: 880px)" },
+      },
     },
   },
   plugins: [],

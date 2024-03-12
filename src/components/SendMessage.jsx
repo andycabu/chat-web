@@ -37,18 +37,20 @@ const SendMessage = () => {
   };
 
   return (
-    <div className="h-[8vh]  flex items-center justify-between bg-[var(--card-background-color)] broder-t-2 border-[var(--background-color)]">
-      <div className=" flex text-2xl justify-center hover:cursor-pointer ml-2 ">
-        <div className="p-3 hover:bg-[var(--background-color)] rounded-md">
-          <RiEmotionHappyLine />
+    <div className=" flex items-center justify-between bg-[var(--card-background-color)] broder-t-2 border-[var(--background-color)]">
+      <div className="flex">
+        <div className=" flex text-2xl justify-center hover:cursor-pointer ml-2 ">
+          <div className="p-3 hover:bg-[var(--background-color)] rounded-md">
+            <RiEmotionHappyLine />
+          </div>
+        </div>
+        <div className=" flex text-2xl justify-center hover:cursor-pointer ml-2 ">
+          <div className="p-3 hover:bg-[var(--background-color)] rounded-md">
+            <RiLinkM />
+          </div>
         </div>
       </div>
-      <div className=" flex text-2xl justify-center hover:cursor-pointer ml-2 ">
-        <div className="p-3 hover:bg-[var(--background-color)] rounded-md">
-          <RiLinkM />
-        </div>
-      </div>
-      <form className="w-[60%] xl:w-10/12" onSubmit={handleSubmit}>
+      <form className="w-full " onSubmit={handleSubmit}>
         <input
           type="text"
           className=" w-full py-2 px-6 bg-[var(--card-background-color)] outline-none "

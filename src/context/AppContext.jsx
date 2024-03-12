@@ -15,6 +15,7 @@ export const AppProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [unread, setUnread] = useState([]);
   const [activeUser, setActiveUser] = useState(null);
+
   const socket = io("http://localhost:3000");
   useEffect(() => {
     socket.on(
@@ -156,6 +157,7 @@ export const AppProvider = ({ children }) => {
       value={{
         contacts,
         user,
+        setUser,
         unread,
         activeUser,
         setActiveUser,

@@ -2,11 +2,17 @@ import { RiChatPollFill, RiMore2Fill, RiSearchLine } from "react-icons/ri";
 import Chat from "./components/Chat";
 import Contacts from "./components/Contacts";
 import DayNight from "./components/DayNight";
+import { useApp } from "./hooks/useApp";
 
 function App() {
+  const { user } = useApp();
   return (
     <div className="min-h-screen flex text-[var(--text-color)]">
-      <div className="min-w-[360px] bg-[var(--card-background-color)] flex flex-col border-r-2 border-[var(--background-color)] w-1/2">
+      <div
+        className={`min-w-[360px] bg-[var(--card-background-color)] flex flex-col border-r-2 border-[var(--background-color)] w-1/2 small:w-full ${
+          user ? "medium:hidden" : ""
+        }`}
+      >
         <div className="p-4 ">
           <div className="flex items-center justify-between mb-4">
             <div className="text-2xl font-bold">

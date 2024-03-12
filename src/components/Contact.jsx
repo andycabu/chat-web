@@ -16,8 +16,6 @@ const Contact = () => {
   const sortedContacts = contacts.sort(
     (a, b) => b.lastMessage.timestamp - a.lastMessage.timestamp
   );
-  console.log(activeUser);
-  // Función para encontrar si un usuario tiene mensajes no leídos
   const getUnreadMessageCount = (userId) => {
     const unreadMsg = unread.find((unreadMsg) => unreadMsg._id === userId);
     return unreadMsg ? unreadMsg.count : 0; // Retorna el conteo si encuentra un objeto, de lo contrario 0
@@ -36,7 +34,6 @@ const Contact = () => {
         const minute = date.getMinutes();
         const name = user.profile.name;
         const isActive = activeUser === user._id;
-        console.log(isActive);
 
         return (
           <div

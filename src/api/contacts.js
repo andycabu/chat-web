@@ -16,7 +16,7 @@ export const postMessageRequest = async (data) =>
   });
 
 export const getContactsRequestById = async (id) =>
-  await axios.get(`${URL}messages/${id}`, {
+  await axios.get(`${URL}messages/${id}/ById`, {
     headers: {
       "Content-Type": "application/json",
     },
