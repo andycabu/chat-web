@@ -64,7 +64,7 @@ const Messages = () => {
             )}
             <div className={`mb-2 flex ${messageAlignment}`}>
               <div
-                className={`flex flex-col ${messageBgColor} max-w-[600px] min-w-[110px] xl:max-w-2xl rounded-xl`}
+                className={`flex flex-col ${messageBgColor} max-w-[480px] min-w-[110px] xl:max-w-2xl rounded-xl`}
               >
                 <p className="break-words px-2 pt-1">{message.text.body}</p>
                 <div className="flex justify-end items-center px-2">

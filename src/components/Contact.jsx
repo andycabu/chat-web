@@ -18,7 +18,7 @@ const Contact = () => {
   );
   const getUnreadMessageCount = (userId) => {
     const unreadMsg = unread.find((unreadMsg) => unreadMsg._id === userId);
-    return unreadMsg ? unreadMsg.count : 0; // Retorna el conteo si encuentra un objeto, de lo contrario 0
+    return unreadMsg ? unreadMsg.count : 0;
   };
   const handleUserChange = (newUserId) => {
     changeUser(newUserId);

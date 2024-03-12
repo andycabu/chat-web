@@ -3,6 +3,7 @@ import Chat from "./components/Chat";
 import Contacts from "./components/Contacts";
 import DayNight from "./components/DayNight";
 import { useApp } from "./hooks/useApp";
+import ContainerIcon from "./components/ContainerIcon";
 
 function App() {
   const { user } = useApp();
@@ -18,10 +19,9 @@ function App() {
             <div className="text-2xl font-bold">
               <h1>Chats</h1>
             </div>
-            <div className="flex items-center gap-8 text-2xl text-gray-500">
-              <DayNight />
-              <RiChatPollFill className="hover:cursor-pointer" />
-              <RiMore2Fill className="hover:cursor-pointer" />
+            <div className="flex items-center  text-2xl text-gray-500">
+              <ContainerIcon icon={<DayNight />} />
+              <ContainerIcon icon={<RiMore2Fill />} />
             </div>
           </div>
           <form className="w-full">

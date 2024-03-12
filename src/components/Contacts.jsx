@@ -2,7 +2,7 @@ import Contact from "./Contact";
 
 const Contacts = () => {
   return (
-    <div className=" overflow-y-auto">
+    <div className="overflow-y-auto">
       <Contact />
     </div>
   );

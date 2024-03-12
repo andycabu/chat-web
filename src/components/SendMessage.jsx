@@ -3,6 +3,7 @@ import { RiEmotionHappyLine, RiLinkM } from "react-icons/ri";
 import { IoSend } from "react-icons/io5";
 import { postMessageRequest } from "../api/contacts";
 import { useApp } from "../hooks/useApp";
+import ContainerIcon from "./ContainerIcon";
 
 const SendMessage = () => {
   const { user } = useApp();
@@ -37,18 +38,10 @@ const SendMessage = () => {
   };
 
   return (
-    <div className=" flex items-center justify-between bg-[var(--card-background-color)] broder-t-2 border-[var(--background-color)]">
+    <div className=" flex items-center justify-between bg-[var(--card-background-color)] broder-t-2 border-[var(--background-color)] p-2">
       <div className="flex">
-        <div className=" flex text-2xl justify-center hover:cursor-pointer ml-2 ">
-          <div className="p-3 hover:bg-[var(--background-color)] rounded-md">
-            <RiEmotionHappyLine />
-          </div>
-        </div>
-        <div className=" flex text-2xl justify-center hover:cursor-pointer ml-2 ">
-          <div className="p-3 hover:bg-[var(--background-color)] rounded-md">
-            <RiLinkM />
-          </div>
-        </div>
+        <ContainerIcon icon={<RiEmotionHappyLine />} />
+        <ContainerIcon icon={<RiLinkM />} />
       </div>
       <form className="w-full " onSubmit={handleSubmit}>
         <input
@@ -64,11 +57,7 @@ const SendMessage = () => {
           Enviar
         </button>
       </form>
-      <div className=" flex text-2xl justify-center hover:cursor-pointer  ">
-        <div className="p-3 hover:bg-[var(--background-color)] rounded-md mr-2">
-          <IoSend onClick={(e) => handleSubmit(e)} />
-        </div>
-      </div>
+      <ContainerIcon icon={<IoSend onClick={(e) => handleSubmit(e)} />} />
     </div>
   );
 };

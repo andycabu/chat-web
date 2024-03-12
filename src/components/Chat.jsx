@@ -4,6 +4,7 @@ import SendMessage from "./SendMessage";
 import img from "../assets/profilepicture1.jpg";
 import { useApp } from "../hooks/useApp";
 import { IoArrowBack } from "react-icons/io5";
+import ContainerIcon from "./ContainerIcon";
 
 const Chat = () => {
   const { user, setUser } = useApp();
@@ -16,16 +17,14 @@ const Chat = () => {
     );
   }
   return (
-    <div className="w-[70%] h-screen flex flex-col">
-      <header className=" bg-[var(--card-background-color)] p-4 flex items-center justify-between border-b-2 border-[var(--background-color)]">
+    <div className="w-[70%] h-screen flex flex-col medium:w-full">
+      <header className=" bg-[var(--card-background-color)] p-3 flex items-center justify-between border-b-2 border-[var(--background-color)]">
         <div className="flex items-center gap-4">
           <div
             onClick={() => setUser()}
             className=" hidden text-2xl justify-center hover:cursor-pointer medium:flex"
           >
-            <div className="p-3 hover:bg-[var(--background-color)] rounded-md">
-              <IoArrowBack />
-            </div>
+            <ContainerIcon icon={<IoArrowBack />} />
           </div>
           <img src={img} className="w-10 h-10 object-cover rounded-full" />
           <div>
@@ -34,8 +33,8 @@ const Chat = () => {
           </div>
         </div>
         <div className="flex items-center gap-8 text-2xl ">
-          <RiSearchLine className="hover:cursor-pointer" />
-          <RiMore2Fill className="hover:cursor-pointer" />
+          <ContainerIcon icon={<RiSearchLine />} />
+          <ContainerIcon icon={<RiMore2Fill />} />
         </div>
       </header>
       <Messages />
